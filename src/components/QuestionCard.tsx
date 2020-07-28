@@ -1,10 +1,10 @@
 import React from 'react'
 
-// styles
-import { Wrapper, ButtonWrapper } from './QuestionCard.styles'
-
 // types
 import { AnswerObject } from '../App'
+
+// styles
+import { Wrapper, ButtonWrapper } from './QuestionCard.styles'
 
 type Props = {
   question: string
