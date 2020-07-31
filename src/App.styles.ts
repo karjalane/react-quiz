@@ -52,6 +52,21 @@ export const Wrapper = styled.div`
     margin: 20px;
   }
 
+  h2 {
+    background-image: linear-gradient(180deg, #fff, #15faa9);
+    background-size: 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
+    filter: drop-shadow(2px 2px #0085a3);
+    font-size: 40px;
+    font-weight: 300;
+    text-align: center;
+    margin: 20px;
+  }
+
   .start, .next, .select {
     cursor: pointer;
     background: linear-gradient(180deg, #fff, #15faa5);
@@ -71,6 +86,7 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 5px;
   }
 `
 

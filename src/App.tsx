@@ -3,6 +3,7 @@ import { fetchQuizQuestions } from './API'
 import PulseLoader from 'react-spinners/PulseLoader'
 // Components
 import QuestionCard from './components/QuestionCard'
+import PointsAtEnd from './components/PointsAtEnd'
 // Types
 import { QuestionState } from './API'
 // styles
@@ -25,6 +26,7 @@ const App = () => {
   const [score, setScore] = useState(0)
   const [gameOver, setGameOver] = useState(true)
   const [difficulty, setDifficulty] = useState('easy')
+  const [lastQ, setLastQ] = useState(false)
 
   console.log(questions)
 
@@ -41,6 +43,7 @@ const App = () => {
     setScore(0)
     setUserAnswers([])
     setNumber(0)
+    setLastQ(false)
     setTimeout(() => { setLoading(false) }, 1000)
     //setLoading(false)
   }
@@ -64,12 +67,20 @@ const App = () => {
         , correctAnswer: questions[number].correct_answer
       }
       setUserAnswers((prev) => [...prev, answerObject])
+
+      if (number + 1 === TOTAL_QUESTIONS) {
+        setTimeout(() => {
+          setGameOver(true)
+        }, 5000)
+        setLastQ(true)
+      }
     }
   }
 
   const nextQuestion = () => {
     // move to next question if not last question
     const nextQuestion = number + 1
+    console.log(nextQuestion)
 
     if (nextQuestion === TOTAL_QUESTIONS) {
       setGameOver(true)
@@ -98,6 +109,11 @@ const App = () => {
       <GlobalStyle />
       <Wrapper>
         <h1>React Quiz</h1>
+        { lastQ && 
+          <PointsAtEnd
+            score = { score }
+          /> 
+        }
         { gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
           <div>{ startDifficulty() }</div>
         ) : null }
@@ -105,7 +121,7 @@ const App = () => {
           ? <p className="score">Score: { score }</p>
           : null }
         { loading && 
-          <div className='loader'>
+          <div className="loader">
             <PulseLoader />
           </div> }
         { !loading && !gameOver && (
