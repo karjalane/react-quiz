@@ -52,7 +52,7 @@ export const Wrapper = styled.div`
     margin: 20px;
   }
 
-  .start, .next {
+  .start, .next, .select {
     cursor: pointer;
     background: linear-gradient(180deg, #fff, #15faa5);
     border: 2px solid #d38558;
@@ -65,5 +65,37 @@ export const Wrapper = styled.div`
 
   .start {
     max-width: 200px;
+  }
+
+  .startDiff {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+`
+
+export const Select = styled.select`
+  width: 100%;
+  height: 40px;
+  cursor: pointer;
+  background: linear-gradient(180deg, #fff, #15faa5);
+  border: 2px solid #d38558;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  padding-left: 5px;
+  font-size: 14px;
+  border: none;
+  margin-left: 10px;
+  align-items: center;
+  display: flex;
+
+  option {
+    color: black;
+    background: white;
+    display: flex;
+
+    white-space: pre;
+    min-height: 20px;
+    padding: 0px 2px 1px;
   }
 `

@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { fetchQuizQuestions } from './API';
+import { fetchQuizQuestions } from './API'
+import PulseLoader from 'react-spinners/PulseLoader'
 // Components
 import QuestionCard from './components/QuestionCard'
 // Types
-import { QuestionState, Difficulty } from './API'
+import { QuestionState } from './API'
 // styles
-import { GlobalStyle, Wrapper } from './App.styles'
+import { GlobalStyle, Wrapper, Select } from './App.styles'
 
 export type AnswerObject = {
   question: string
@@ -23,6 +24,7 @@ const App = () => {
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([])
   const [score, setScore] = useState(0)
   const [gameOver, setGameOver] = useState(true)
+  const [difficulty, setDifficulty] = useState('easy')
 
   console.log(questions)
 
@@ -32,14 +34,15 @@ const App = () => {
 
     const newQuestions = await fetchQuizQuestions(
       TOTAL_QUESTIONS
-      , Difficulty.EASY
+      , difficulty
     )
 
     setQuestions(newQuestions)
     setScore(0)
     setUserAnswers([])
     setNumber(0)
-    setLoading(false)
+    setTimeout(() => { setLoading(false) }, 1000)
+    //setLoading(false)
   }
 
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -75,20 +78,36 @@ const App = () => {
     }
   }
 
+  const startDifficulty = () => {
+    return (
+      <div className="startDiff">
+        <button className="start" onClick={ startTrivia }>
+          Start
+        </button>
+        <Select value={ difficulty } onChange={ (e) => setDifficulty(e.currentTarget.value) }>
+          <option value='easy'>Easy</option>
+          <option value='medium'>Medium</option>
+          <option value='hard'>Hard</option>
+        </Select>
+      </div>
+    )
+  }
+
   return (
     <>
       <GlobalStyle />
       <Wrapper>
         <h1>React Quiz</h1>
         { gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
-          <button className="start" onClick={ startTrivia }>
-            Start
-          </button>
+          <div>{ startDifficulty() }</div>
         ) : null }
         { !gameOver
           ? <p className="score">Score: { score }</p>
           : null }
-        { loading && <p>Loading Questions...</p> }
+        { loading && 
+          <div className='loader'>
+            <PulseLoader />
+          </div> }
         { !loading && !gameOver && (
           <QuestionCard 
             questionNr={ number + 1 }
